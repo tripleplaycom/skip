@@ -49,14 +49,6 @@ div.input_line textarea {
   <%= render :partial => "board_entries/edit_contents" %>
 </div>
 
-<div class="input_line">
-  <div class="input_label" style="height: 3em;">ファイル</div>
-  <div style="float:left;">
-    <%= render :partial => "shared/multiple_file" , :locals => {:file_field_name => "image", :submit_button_id => "submit_button", :blog_mode => true} -%>
-  </div>
-  <div style="clear: left"></div>
-</div>
-
 <div class="input_line input_option invisible">
   <div class="input_label" style="height: 30px;">日付</div>
   <div class="input_value">

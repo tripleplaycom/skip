@@ -73,7 +73,6 @@ class EditController < ApplicationController
       redirect_to_with_deny_auth and return
     end
 
-    @board_entry.image_files = params[:image].map{|key,val| val}.delete_if{|elm| elm == ""} if params[:image]
     if @board_entry.save
       target_symbols  = analyze_params
       target_symbols.first.each do |target_symbol|
@@ -195,9 +194,7 @@ class EditController < ApplicationController
     # ちょっとした更新でなければ、last_updatedを更新する
     update_params[:last_updated] = Time.now unless params[:non_update]
 
-    @board_entry.image_files = params[:image].map{|key,val| val}.delete_if{|elm| elm == ""} if params[:image]
     if @board_entry.update_attributes(update_params)
-
       @board_entry.entry_publications.clear
       @board_entry.entry_editors.clear
       target_symbols = analyze_params

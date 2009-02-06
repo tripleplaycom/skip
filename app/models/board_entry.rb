@@ -619,23 +619,6 @@ class BoardEntry < ActiveRecord::Base
     Mail.delete( unsent_mails.collect{ |mail| mail.id }) unless unsent_mails.size == 0
   end
 
-  def image_url(file_name, with_id = true)
-    file_name = with_id ? "#{id}_#{file_name}" : file_name
-    file_path = File.join('board_entries', user_id.to_s, file_name)
-    url_for(:controller => '/image', :action => :show, :path => file_path, :only_path => true)
-  end
-
-  def images_filename_to_url_mapping_hash
-    img_urls = {}
-    img_files = all_images
-    img_files.each do |img_file|
-      img_name = File.basename(img_file)
-      img_key = img_name.gsub(id.to_s+"_",'')
-      img_urls[img_key] = image_url(img_name, false)
-    end
-    return img_urls
-  end
-
   def upload_files(files)
     FileUtils.mkdir_p(image_owner_path)
     files.each do |file|

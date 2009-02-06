@@ -155,10 +155,10 @@ module ApplicationHelper
     output = ""
     if entry.editor_mode == 'hiki'
       output_contents = hiki_parse(entry.contents, entry.symbol)
-      board_entry_image_url_proc = proc { |file_name|
+      image_url_proc = proc { |file_name|
         file_link_url :owner_symbol => entry.symbol, :file_name => file_name
       }
-      output_contents = SkipUtil.images_parse(output_contents, board_entry_image_url_proc)
+      output_contents = SkipUtil.images_parse(output_contents, image_url_proc)
       output = "<div class='hiki_style'>#{output_contents}</div>"
     elsif entry.editor_mode == 'richtext'
       output = render_richtext(entry.contents, entry.symbol)

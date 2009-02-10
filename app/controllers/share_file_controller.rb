@@ -184,6 +184,16 @@ class ShareFileController < ApplicationController
     render :layout => 'layout'
   end
 
+  def list_as_dialog
+    @share_files = ShareFile.readables(current_user, params[:owner_symbol])
+    @title = _('ファイル一覧')
+    unless @share_files.empty?
+      render :layout => 'dialog'
+    else
+      render :text => _('ファイルが存在しません。'), :status => :not_found
+    end
+  end
+
   def download
     symbol_type_hash = { 'user'  => 'uid',
                          'group' => 'gid' }

@@ -58,6 +58,15 @@ div.input_line textarea {
   </div>
   <div style="clear: left"></div>
 </div>
+
+<div class="input_line">
+  <div class="input_label">ファイル</div>
+  <div class="input_value">
+    <%= link_to '[参照]', url_for(:controller => 'share_file', :action => 'list_as_dialog', :owner_symbol => h(params[:symbol])), :class => 'nyroModal' %>
+  </div>
+  <div style="clear: left"></div>
+</div>
+
 <div class="input_line" id="show_option">
 <p><a href="#" id="show_option_link">[オプションを表示]</a></p>
 </div>

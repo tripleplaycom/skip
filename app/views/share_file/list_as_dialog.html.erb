@@ -1,0 +1,36 @@
+<%
+  block = lambda{ |share_file, column|
+    case column
+    when 'file_name'
+      content_tag :span, h(share_file.file_name), :id => "file_name_#{share_file.id}"
+    when _('action')
+      link_to '[本文末尾に挿入]', '#', :class => 'insert_link', :share_file_id => share_file.id
+    else
+      h(share_file.send(column))
+    end
+  }
+-%>
+<%= render :partial => 'shared/table',
+           :locals => {
+             :records => @share_files,
+             :target_class => ShareFile,
+             :table_columns => ['file_name', _('action')],
+             :value_logic => block } %>
+
+<% content_for :javascript do -%>
+  <script type='text/javascript'>
+  $j('.insert_link')
+  .click(function() {
+      var shareFileId = $j(this).attr('share_file_id');
+      var shareFileName = $j('#file_name_' + shareFileId).html();
+      var insertText = "\n{{" + shareFileName;
+      var fileExtPattern = /\.flv|\.swf/;
+      if(shareFileName.toLowerCase().search(fileExtPattern) == -1) {
+          insertText += ",240,";
+      }
+      insertText += "}}";
+      $j("#contents_hiki").val($j("#contents_hiki").val() + insertText);
+      return false;
+  });
+  </script>
+<% end -%>

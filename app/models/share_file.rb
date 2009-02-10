@@ -327,6 +327,23 @@ class ShareFile < ActiveRecord::Base
     user ? owner_instance(self, user).updatable? : false
   end
 
+  # 指定されたaccessed_userが閲覧可能なowner_symbolの共有ファイルを取得
+  # owner_symbolが指定されない場合はaccessed_user自身の共有ファイルとする
+  def self.readables(accessed_user, owner_symbol = nil)
+    if accessed_user
+      owner_symbol ||= accessed_user.symbol
+      if Symbol.valid_owner_symbol(owner_symbol)
+        find_params = ShareFile.make_conditions(accessed_user.belong_symbols, {:owner_symbol => owner_symbol})
+        return ShareFile.all(
+          :conditions => find_params[:conditions],
+          :include => find_params[:include],
+          :order => 'file_name'
+        )
+      end
+    end
+    []
+  end
+
   class Owner
     def initialize(share_file, user)
       @share_file = share_file

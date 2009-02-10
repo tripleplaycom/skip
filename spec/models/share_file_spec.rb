@@ -342,6 +342,51 @@ describe ShareFile, '#updatable?' do
   end
 end
 
+describe ShareFile, '.readables' do
+  before do
+    Symbol.stub!(:valid_owner_symbol).and_return(true)
+  end
+  describe 'accessed_userが不正な場合' do
+    before do
+      @accessed_user = nil
+    end
+    it '空配列を返すこと' do
+      ShareFile.readables(@accessed_user).should == []
+    end
+  end
+  describe 'accessed_userが正しい場合' do
+    before do
+      @accessed_user = stub_model(User, :uid => 'uid:foo')
+    end
+    describe 'owner_symbolが不正な場合' do
+      before do
+        @owner_symbol = 'uid:bar'
+        Symbol.should_receive(:valid_owner_symbol).with(@owner_symbol).and_return(false)
+      end
+      it '空配列を返すこと' do
+        ShareFile.readables(@accessed_user, @owner_symbol).should == []
+      end
+    end
+    describe 'owner_symbolが正しい場合' do
+      before do
+        @owner_symbol = 'uid:bar'
+        Symbol.should_receive(:valid_owner_symbol).with(@owner_symbol).and_return(true)
+        @login_user_symbols = ['uid:foo', 'gid:baz']
+        @accessed_user.should_receive(:belong_symbols).and_return(@login_user_symbols)
+        @conditions = mock('conditions')
+        @include = mock('include')
+        @find_params = {:conditions => @conditions, :include => @include}
+        ShareFile.should_receive(:make_conditions).with(@login_user_symbols, {:owner_symbol => @owner_symbol}).and_return(@find_params)
+      end
+      it '検索結果が返ること' do
+        @results = [stub_model(ShareFile)]
+        ShareFile.should_receive(:all).with({:conditions => @conditions, :include => @include, :order => 'file_name'}).and_return(@results)
+        ShareFile.readables(@accessed_user, @owner_symbol).should == @results
+      end
+    end
+  end
+end
+
 describe ShareFile::UserOwner do
   describe ShareFile::UserOwner, '#readable?' do
     before do

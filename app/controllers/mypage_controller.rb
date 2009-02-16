@@ -194,6 +194,7 @@ class MypageController < ApplicationController
       @user_unreadings = unread_entry_id_hash_with_user_reading(@entries.map {|entry| entry.id})
       @symbol2name_hash = BoardEntry.get_symbol2name_hash(@entries)
     end
+    render :layout => false if !request.mobile.nil? && request.mobile.iphone?
   end
 
   # ajax_action

@@ -9,14 +9,11 @@
   <% title = @title ? "#{Admin::Setting.abbr_app_title} - #{@title}" : Admin::Setting.abbr_app_title %>
   <title><%= h title %></title>
 
-  <%= all_stylesheet_link_tag "style" -%>
+  <%#= all_stylesheet_link_tag "style" -%>
   <%= stylesheet_link_tag("sprites/sprite.css") %>
+  <%= stylesheet_link_tag("application_mobile_iphone") %>
   <%= stylesheet_link_tag("iui.css") %>
-  <%= all_javascript_include_tag 'jquery' %>
-  <script type="text/javascript">$j = jQuery.noConflict();</script>
-  <%= javascript_include_tag 'application' %>
-  <%= skip_javascript_include_tag 'skip_util' %>
-  <%= javascript_include_tag 'iui' %>
+  <%= yield :stylesheet %>
 </head>
 <body>
   <div class="toolbar">
@@ -26,5 +23,12 @@
   </div>
   <%= yield %>
 </body>
+<%= all_javascript_include_tag 'jquery' %>
+<script type="text/javascript">$j = jQuery.noConflict();</script>
+<%= javascript_include_tag 'application' %>
+<%= javascript_include_tag 'application_mobile_iphone' %>
+<%= skip_javascript_include_tag 'skip_util' %>
+<%= javascript_include_tag 'iui' %>
+<%= yield :javascript %>
 </html>
 

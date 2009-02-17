@@ -1,0 +1,92 @@
+// ============================================================ 
+// グローバル定数定義
+// ============================================================ 
+!base_fg_color = #000
+!base_bg_color = #fff
+!base_border_color = #e0e0e0
+!base_font_family = "Arial, Verdana, sans-serif"
+
+/* ============================================================ 
+  基本要素
+  ============================================================ 
+*
+  :color !base_fg_color
+  :margin 0px
+  :padding 0px
+  :text-decoration none
+html
+  :height 100%
+  :margin-bottom 1px
+body
+  :font
+    :family = !base_font_family
+    :size 12px
+  :background-color = !base_bg_color
+
+/* ============================================================ 
+  汎用クラス
+  ============================================================ 
+.invisible
+  :display none
+
+.icon_as_button
+  :margin
+    :left 15px
+
+=base_border
+  :width 1px
+  :style solid
+  :color = !base_border_color
+=base_entry_style
+  :background = !base_bg_color
+  :border
+    +base_border
+  :-webkit-border-radius 5px
+
+/* ============================================================ 
+  記事関連
+  ============================================================ 
+div#board_entry
+  +base_entry_style
+  :margin
+    :bottom 5px
+  .header
+    :border-bottom
+      +base_border
+    h1
+      :font
+        :size 20px
+    .date, .author
+      :font
+        :size 8px
+      :color #808080
+  .contents
+    :padding 5px
+
+div.board_entry_comment
+  +base_entry_style
+  .header
+    :border-bottom
+      +base_border
+    .date, .author
+      :font
+        :size 8px
+      :color #808080
+    .operation
+  .contents
+    :padding 5px
+  .level1
+    :margin
+      :left 2px
+  .level2
+    :margin
+      :left 4px
+  .level3
+    :margin
+      :left 6px
+  .level4
+    :margin
+      :left 8px
+  .level5
+    :margin
+      :left 10px

@@ -1,0 +1,74 @@
+/* ============================================================
+ * 基本要素
+ * ============================================================ */
+* {
+  color: !base_fg_color;
+  margin: 0px;
+  padding: 0px;
+  text-decoration: none; }
+
+html {
+  height: 100%;
+  margin-bottom: 1px; }
+
+body {
+  font-family: Arial, Verdana, sans-serif;
+  font-size: 12px;
+  background-color: #ffffff; }
+
+/* ============================================================
+ * 汎用クラス
+ * ============================================================ */
+.invisible {
+  display: none; }
+
+.icon_as_button {
+  margin-left: 15px; }
+
+/* ============================================================
+ * 記事関連
+ * ============================================================ */
+div#board_entry {
+  background: #ffffff;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #e0e0e0;
+  -webkit-border-radius: 5px;
+  margin-bottom: 5px; }
+  div#board_entry .header {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #e0e0e0; }
+    div#board_entry .header h1 {
+      font-size: 20px; }
+    div#board_entry .header .date, div#board_entry .header .author {
+      font-size: 8px;
+      color: #808080; }
+  div#board_entry .contents {
+    padding: 5px; }
+
+div.board_entry_comment {
+  background: #ffffff;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #e0e0e0;
+  -webkit-border-radius: 5px; }
+  div.board_entry_comment .header {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: #e0e0e0; }
+    div.board_entry_comment .header .date, div.board_entry_comment .header .author {
+      font-size: 8px;
+      color: #808080; }
+  div.board_entry_comment .contents {
+    padding: 5px; }
+  div.board_entry_comment .level1 {
+    margin-left: 2px; }
+  div.board_entry_comment .level2 {
+    margin-left: 4px; }
+  div.board_entry_comment .level3 {
+    margin-left: 6px; }
+  div.board_entry_comment .level4 {
+    margin-left: 8px; }
+  div.board_entry_comment .level5 {
+    margin-left: 10px; }

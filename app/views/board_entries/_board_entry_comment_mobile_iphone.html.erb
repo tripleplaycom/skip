@@ -21,8 +21,12 @@
   <div class='comment_input_space invisible' id='comment_area_<%= comment.id %>'>
     <form id="comment_input_form_<%= comment.id %>" class="comment_input_form">
     <% @comment = BoardEntryComment.new(:contents => comment.contents) -%>
+    <fieldset>
+      <div class="row">
       <label for="comment_contents">コメントの編集</label>
       <%= text_area 'comment', 'contents', :cols => 90, :rows =>5 %>
+      </div>
+    </fieldset>
       <%= submit_tag '保存' %>
       <input id="comment_cancel_button_<%= comment.id %>" class="comment_cancel_button" type="button" value="キャンセル"/>
     </form>

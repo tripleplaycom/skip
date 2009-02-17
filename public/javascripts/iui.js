@@ -4,7 +4,7 @@
  */
 
 
-(function() {
+jQuery(function() {
 
 var slideSpeed = 20;
 var slideInterval = 0;
@@ -19,6 +19,13 @@ var newPageCount = 0;
 var checkTimer;
 
 // *************************************************************************************************
+
+var currentSettings = {
+    endShowContent: function(){alert('endShow!!');}
+};
+jQuery.iuiSettings = function(settings) {
+    jQuery.extend(currentSettings, settings);
+};
 
 window.iui =
 {
@@ -44,6 +51,8 @@ window.iui =
                 else
                     updatePage(page, fromPage);
             }
+            if (jQuery.isFunction(currentSettings.endShowContent))
+                currentSettings.endShowContent();
         }
     },
 
@@ -380,4 +389,4 @@ function replaceElementWithSource(replace, source)
 function $(id) { return document.getElementById(id); }
 function ddd() { console.log.apply(console, arguments); }
 
-})();
+});

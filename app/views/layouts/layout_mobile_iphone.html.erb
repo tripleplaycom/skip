@@ -25,10 +25,13 @@
 </body>
 <%= all_javascript_include_tag 'jquery' %>
 <script type="text/javascript">$j = jQuery.noConflict();</script>
+<script type="text/javascript">
+var relative_url_root = '<%= controller.request.relative_url_root -%>';
+</script>
 <%= javascript_include_tag 'application' %>
-<%= javascript_include_tag 'application_mobile_iphone' %>
 <%= skip_javascript_include_tag 'skip_util' %>
 <%= javascript_include_tag 'iui' %>
+<%= javascript_include_tag 'application_mobile_iphone' %>
 <%= yield :javascript %>
 </html>
 

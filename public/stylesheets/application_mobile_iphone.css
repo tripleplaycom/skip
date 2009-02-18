@@ -55,21 +55,45 @@ div.board_entry_comment {
   -webkit-border-radius: 5px;
   margin-bottom: 5px; }
   div.board_entry_comment .header {
+    position: relative;
     border-bottom-width: 1px;
     border-bottom-style: solid;
-    border-bottom-color: #e0e0e0; }
+    border-bottom-color: #bebebe;
+    height: 18px; }
     div.board_entry_comment .header .date, div.board_entry_comment .header .author {
       font-size: 8px;
       color: #808080; }
+    div.board_entry_comment .header .operation {
+      position: absolute;
+      right: 0;
+      top: 0;
+      text-align: right;
+      font-size: 16px;
+      font-weight: bold; }
+      div.board_entry_comment .header .operation ul {
+        list-style-type: none;
+        border-width: 1px;
+        border-style: solid;
+        border-color: #999999;
+        background: #cccccc;
+        display: none; }
+        div.board_entry_comment .header .operation ul li {
+          line-height: 20px;
+          display: inline; }
   div.board_entry_comment .contents {
     padding: 5px; }
   div.board_entry_comment .level1 {
-    margin-left: 2px; }
+    margin-left: 2px;
+    background: #ffffff; }
   div.board_entry_comment .level2 {
-    margin-left: 4px; }
+    margin-left: 4px;
+    background: #eeeeee; }
   div.board_entry_comment .level3 {
-    margin-left: 6px; }
+    margin-left: 6px;
+    background: #dddddd; }
   div.board_entry_comment .level4 {
-    margin-left: 8px; }
+    margin-left: 8px;
+    background: #cccccc; }
   div.board_entry_comment .level5 {
-    margin-left: 10px; }
+    margin-left: 10px;
+    background: #bbbbbb; }

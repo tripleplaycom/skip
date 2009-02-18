@@ -9,7 +9,6 @@
   <% title = @title ? "#{Admin::Setting.abbr_app_title} - #{@title}" : Admin::Setting.abbr_app_title %>
   <title><%= h title %></title>
 
-  <%= stylesheet_link_tag("sprites/sprite.css") %>
   <%= stylesheet_link_tag("application_mobile_iphone") %>
   <%= stylesheet_link_tag("iui.css") %>
   <%= yield :stylesheet %>
@@ -17,20 +16,8 @@
 <body>
   <div class="toolbar">
     <h1 id="pageTitle"><%= h title %></h1>
-    <a id="backButton" class="button" href="#" ></a>
-    <a class="button" onClick="location.href = '<%= url_for(:controller => "/platform", :action => :logout) %>';"><%= _('ログアウト') %></a>
   </div>
   <%= yield %>
 </body>
-<%= all_javascript_include_tag 'jquery' %>
-<script type="text/javascript">$j = jQuery.noConflict();</script>
-<script type="text/javascript">
-var relative_url_root = '<%= controller.request.relative_url_root -%>';
-</script>
-<%= javascript_include_tag 'application' %>
-<%= skip_javascript_include_tag 'skip_util' %>
-<%= javascript_include_tag 'iui' %>
-<%= javascript_include_tag 'application_mobile_iphone' %>
-<%= yield :javascript %>
 </html>
 

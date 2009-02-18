@@ -1,0 +1,21 @@
+  <% form_tag({:controller => :platform, :action => :login, :only_path => false}, :id => 'login_form', :class => 'panel', :selected => 'true') do %>
+    <h2><%= _('ログイン情報を入力して下さい。') %></h2>
+    <fieldset>
+    <% if login_mode?(:password) -%>
+      <div class="row">
+        <label for="login_key"><%= h Admin::Setting.login_account %></label>
+        <%= text_field 'login', 'key' %>
+      </div>
+      <div class="row">
+        <label for="login_password"><%= _('パスワード') %></label>
+        <%= password_field 'login', 'password' %>
+      </div>
+    <% else -%>
+      <div class="row">
+        <label for="openid_url"><%= _('OpenID URL') %></label>
+        <%= text_field_tag 'openid_url', nil, 'AUTOCOMPLETE' => "on" %>
+      </div>
+    <% end -%>
+    </fieldset>
+    <%= submit_tag _("ログイン") %></td>
+  <% end -%>

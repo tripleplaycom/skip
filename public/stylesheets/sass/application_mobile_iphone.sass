@@ -68,27 +68,56 @@ div.board_entry_comment
   :margin
     :bottom 5px
   .header
+    :position relative
     :border-bottom
-      +base_border
+      :width 1px
+      :style solid
+      :color = !base_border_color - #222
+    :height 18px
     .date, .author
       :font
         :size 8px
       :color #808080
     .operation
+      :position absolute
+      :right 0
+      :top 0
+      :text-align right
+      :font
+        :size 16px
+        :weight bold
+      ul
+        :list
+          :style
+            :type none
+        :border
+          :width 1px
+          :style solid
+          :color = #999
+        :background = #ccc
+        :display none
+        li
+          :line-height 20px
+          :display inline
   .contents
     :padding 5px
   .level1
     :margin
       :left 2px
+    :background = !base_bg_color
   .level2
     :margin
       :left 4px
+    :background = !base_bg_color - #111
   .level3
     :margin
       :left 6px
+    :background = !base_bg_color - #222
   .level4
     :margin
       :left 8px
+    :background = !base_bg_color - #333
   .level5
     :margin
       :left 10px
+    :background = !base_bg_color - #444

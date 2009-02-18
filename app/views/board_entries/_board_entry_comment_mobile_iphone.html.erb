@@ -5,12 +5,16 @@
 <div class="<%= comment_class %>" id="comment_<%= comment.id %>_<%= level %>">
   <div class="header">
     <span class="title" style="<%=h 'background-color: #FFEFCC;' if comment.user_id == session[:user_id] -%>">
-      <%= user_link_to(comment.user) %><span class="date"><%= date_with_icon(comment.created_on) %></span>
+      <span class="author"><%= h(comment.user.name) %></span>
+      <span class="date"><%= date_with_icon(comment.created_on) %></span>
     </span>
     <div class="operation">
-      <%= link_to '[編集]', '#', :id => "comment_edit_link_#{comment.id}", :class => "comment_edit_link", :target => '_self' if writer?(comment, @current_user.id) %>
-      <%= link_to '[削除]', {:controller => 'board_entries', :action => 'destroy_comment', :id => comment.id}, :target => '_self', :confirm => '本当に削除しますか？', :method => :post if (comment_writer?(comment, @current_user.id) && comment.children.size == 0) %>
-      <%= link_to '[このコメントに返信]', '#', :id => "link_nest_comment_#{comment.id}", :class => 'comment_nest_link', :target => '_self' %>
+        メニュー
+      <ul>
+        <%= content_tag('li', link_to('[編集]', '#', :id => "comment_edit_link_#{comment.id}", :class => "comment_edit_link", :target => '_self')) if writer?(comment, @current_user.id) %>
+        <%= content_tag('li', link_to('[削除]', {:controller => 'board_entries', :action => 'destroy_comment', :id => comment.id}, :target => '_self', :confirm => '本当に削除しますか？', :method => :post)) if (comment_writer?(comment, @current_user.id) && comment.children.size == 0) %>
+        <li><%= link_to '[このコメントに返信]', '#', :id => "link_nest_comment_#{comment.id}_#{level}", :class => 'comment_nest_link', :target => '_self' %></li>
+      </ul>
     </div>
   </div><!-- header -->
 

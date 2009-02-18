@@ -58,8 +58,7 @@ div.board_entry_comment {
     position: relative;
     border-bottom-width: 1px;
     border-bottom-style: solid;
-    border-bottom-color: #bebebe;
-    height: 18px; }
+    border-bottom-color: #bebebe; }
     div.board_entry_comment .header .date, div.board_entry_comment .header .author {
       font-size: 8px;
       color: #808080; }
@@ -68,18 +67,26 @@ div.board_entry_comment {
       right: 0;
       top: 0;
       text-align: right;
-      font-size: 16px;
-      font-weight: bold; }
+      font-size: 12px;
+      font-weight: bold;
+      color: #808080; }
       div.board_entry_comment .header .operation ul {
         list-style-type: none;
         border-width: 1px;
         border-style: solid;
-        border-color: #999999;
-        background: #cccccc;
+        border-color: #000000;
+        background: #6d84a2;
         display: none; }
         div.board_entry_comment .header .operation ul li {
-          line-height: 20px;
           display: inline; }
+          div.board_entry_comment .header .operation ul li a {
+            padding: 0, 3px;
+            color: #ffffff;
+            text-shadow: rgba(0, 0, 0, 0.6) 0px -1px 0;
+            text-overflow: ellipsis;
+            -webkit-border-image: url(/images/iui/toolButton.png) 0 5 0 5; }
+    div.board_entry_comment .header .open {
+      z-index: 999; }
   div.board_entry_comment .contents {
     padding: 5px; }
   div.board_entry_comment .level1 {

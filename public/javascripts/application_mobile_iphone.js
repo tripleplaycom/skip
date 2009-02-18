@@ -44,6 +44,7 @@ $j(function(){
                             $j('#comment_input_form_' + commentId + ' textarea').focus();
                         });
                     });
+                    closeOpenMenu();
                     return false;
                 });
             };
@@ -192,20 +193,24 @@ $j(function(){
                     .hide()
                     .fadeIn('fast')
                     .appendTo('#edit_nest_comment_' + commentId);
-
-                    $j("textarea").jGrow({ rows: 25 });
+                    closeOpenMenu();
                 });
             };
             setupCommentNestLink();
 
             // 「メニュー」押下時の操作メニューのトグル
             var setupToggleMenu = function() {
-                $j('.operation')
+                $j('div.operation')
                 .click(function() {
                     $j(this).find('ul').toggle();
+                    $j(this).toggleClass('open');
                 });
             };
             setupToggleMenu();
+
+            var closeOpenMenu = function(){
+                $j('div.operation.open').click();
+            };
         }
     });
 });

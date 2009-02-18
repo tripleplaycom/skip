@@ -5,6 +5,8 @@
 !base_bg_color = #fff
 !base_border_color = #e0e0e0
 !base_font_family = "Arial, Verdana, sans-serif"
+!menu_fg_color = #fff
+!menu_bg_color = #6D84A2
 
 /* ============================================================ 
   基本要素
@@ -73,7 +75,6 @@ div.board_entry_comment
       :width 1px
       :style solid
       :color = !base_border_color - #222
-    :height 18px
     .date, .author
       :font
         :size 8px
@@ -84,8 +85,9 @@ div.board_entry_comment
       :top 0
       :text-align right
       :font
-        :size 16px
+        :size 12px
         :weight bold
+      :color #808080
       ul
         :list
           :style
@@ -93,12 +95,20 @@ div.board_entry_comment
         :border
           :width 1px
           :style solid
-          :color = #999
-        :background = #ccc
+          :color = #000
+        :background = !menu_bg_color
         :display none
         li
-          :line-height 20px
           :display inline
+          a
+            :padding 0, 3px
+            :color = !menu_fg_color
+            :text
+              :shadow rgba(0, 0, 0, 0.6) 0px -1px 0
+              :overflow ellipsis
+            :-webkit-border-image url(/images/iui/toolButton.png) 0 5 0 5
+    .open
+      :z-index 999
   .contents
     :padding 5px
   .level1

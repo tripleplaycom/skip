@@ -15,12 +15,12 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe MoveAttachmentImageToShareFile, '.new_share_file' do
+describe MoveAttachmentImage, '.new_share_file' do
   describe '移行対象の画像が添付された記事が存在する場合' do
     before do
       @board_entry = stub_model(BoardEntry, :symbol => 'symbol', :publication_type => 'publication_type', :publication_symbols_value => 'publication_symbols_value')
-      MoveAttachmentImageToShareFile.should_receive(:image_attached_entry).and_return(@board_entry)
-      @share_file = MoveAttachmentImageToShareFile.new_share_file(99, '99_image_file.png')
+      MoveAttachmentImage.should_receive(:image_attached_entry).and_return(@board_entry)
+      @share_file = MoveAttachmentImage.new_share_file(99, '99_image_file.png')
     end
     it '共有ファイルの値が設定されること' do
       @share_file.file_name.should == 'image_file.png'
@@ -34,23 +34,23 @@ describe MoveAttachmentImageToShareFile, '.new_share_file' do
   end
   describe '移行対象の画像が添付された記事が存在しない場合' do
     before do
-      MoveAttachmentImageToShareFile.should_receive(:image_attached_entry).and_return(nil)
+      MoveAttachmentImage.should_receive(:image_attached_entry).and_return(nil)
     end
     it 'nilが返ること' do
-      MoveAttachmentImageToShareFile.new_share_file(99, '99_image_file.png').should be_nil
+      MoveAttachmentImage.new_share_file(99, '99_image_file.png').should be_nil
     end
   end
 end
 
-describe MoveAttachmentImageToShareFile, '.share_file_name' do
+describe MoveAttachmentImage, '.share_file_name' do
   it '共有ファイルに登録するファイル名が取得出来ること' do
-    MoveAttachmentImageToShareFile.share_file_name('7_image_name.png').should == 'image_name.png'
+    MoveAttachmentImage.share_file_name('7_image_name.png').should == 'image_name.png'
   end
 end
 
-describe MoveAttachmentImageToShareFile, '.image_attached_entry' do
+describe MoveAttachmentImage, '.image_attached_entry' do
   it '画像の添付対象記事を取得しようとすること' do
     BoardEntry.should_receive(:find_by_id).with(7)
-    MoveAttachmentImageToShareFile.image_attached_entry('7_image_name.png')
+    MoveAttachmentImage.image_attached_entry('7_image_name.png')
   end
 end

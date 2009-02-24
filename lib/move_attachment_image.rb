@@ -15,7 +15,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 
-class MoveAttachmentImageToShareFile < BatchBase
+class MoveAttachmentImage < BatchBase
   def self.execute options = {}
     # 共有ファイルのディレクトリリネーム
     log_info('start rename uid directory ...')
@@ -122,5 +122,3 @@ class MoveAttachmentImageToShareFile < BatchBase
     BoardEntry.find_by_id(image_file_name.split('_', 2).first.to_i)
   end
 end
-
-MoveAttachmentImageToShareFile.execution(:argv => ARGV) unless RAILS_ENV == 'test'

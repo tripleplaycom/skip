@@ -15,13 +15,6 @@
 
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe MoveAttachmentImageToShareFile, '.execute' do
-  before do
-    @move_attachment_image_to_share_file =  MoveAttachmentImageToShareFile.new
-    MoveAttachmentImageToShareFile.stub!(:new).and_return(@move_attachment_image_to_share_file)
-  end
-end
-
 describe MoveAttachmentImageToShareFile, '.new_share_file' do
   describe '移行対象の画像が添付された記事が存在する場合' do
     before do
@@ -61,7 +54,3 @@ describe MoveAttachmentImageToShareFile, '.image_attached_entry' do
     MoveAttachmentImageToShareFile.image_attached_entry('7_image_name.png')
   end
 end
-
-#def self.new_share_file created_user_id, filename
-#
-#end

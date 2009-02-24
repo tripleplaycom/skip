@@ -17,30 +17,20 @@ require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 
 class MoveAttachmentImageToShareFile < BatchBase
   def self.execute options = {}
-
     # 共有ファイルのディレクトリリネーム
+    log_info('start rename uid directory ...')
     rename_uid_dir
+    log_info('end rename uid directory')
+
+    log_info('start rename gid directory ...')
     rename_gid_dir
+    log_info('end rename gid directory')
 
-    # 記事の添付画像の移行
-    base_path = "#{INITIAL_SETTINGS['image_path']}/board_entries"
-    ShareFile.transaction do
-      Dir.foreach(base_path) do |user_dir_name|
-        next if (user_dir_name == '.' || user_dir_name == '..')
-        user_dir_path = "#{base_path}/#{user_dir_name}"
-        Dir.foreach(user_dir_path) do |filename|
-          next if (filename == '.' || filename == '..')
-          next unless (share_file = new_share_file(user_dir_name, filename))
-
-          # 実ファイルコピー
-          src = "#{user_dir_path}/#{filename}"
-          dest = share_file.full_path
-          FileUtils.cp src, dest
-
-          # DBレコード作成
-          share_file.save_without_validation!
-        end
-      end
+    if INITIAL_SETTINGS['image_path'] && File.exist?(INITIAL_SETTINGS['image_path'])
+      # 記事の添付画像の移行
+      log_info('start move attachment image ...')
+      move_attachment_image
+      log_info('end move attachment image ...')
     end
   end
 
@@ -74,6 +64,30 @@ class MoveAttachmentImageToShareFile < BatchBase
         log_info("Success rename directory name from #{src} to #{dest}.")
       else
         log_warn("Failure rename directory name from #{src} to #{dest}. Because group is not found that gid is #{gid}")
+      end
+    end
+  end
+
+  # 記事の添付画像の実体ファイルを共有ファイルのディレクトリへ移動
+  # 記事の添付画像に関するデータをshare_filesテーブルに保存
+  def self.move_attachment_image
+    base_path = "#{INITIAL_SETTINGS['image_path']}/board_entries"
+    ShareFile.transaction do
+      Dir.foreach(base_path) do |user_dir_name|
+        next if (user_dir_name == '.' || user_dir_name == '..')
+        user_dir_path = "#{base_path}/#{user_dir_name}"
+        Dir.foreach(user_dir_path) do |filename|
+          next if (filename == '.' || filename == '..')
+          next unless (share_file = new_share_file(user_dir_name, filename))
+
+          # 実ファイルコピー
+          src = "#{user_dir_path}/#{filename}"
+          dest = share_file.full_path
+          FileUtils.cp src, dest
+
+          # DBレコード作成
+          share_file.save_without_validation!
+        end
       end
     end
   end

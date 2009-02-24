@@ -43,8 +43,22 @@ describe MoveAttachmentImage, '.new_share_file' do
 end
 
 describe MoveAttachmentImage, '.share_file_name' do
-  it '共有ファイルに登録するファイル名が取得出来ること' do
-    MoveAttachmentImage.share_file_name('7_image_name.png').should == 'image_name.png'
+  describe '対象の所有者に既に同名ファイルが登録されている場合' do
+    before do
+      ShareFile.should_receive(:find_by_owner_symbol_and_file_name).with('uid:owner', 'image_name.png').and_return(stub_model(ShareFile))
+      ShareFile.should_receive(:find_by_owner_symbol_and_file_name).with('uid:owner', 'image_name_.png').and_return(nil)
+    end
+    it 'ファイル名末尾に_(アンダースコア)が付加されたファイル名が取得出来ること' do
+      MoveAttachmentImage.share_file_name('uid:owner', '7_image_name.png').should == 'image_name_.png'
+    end
+  end
+  describe '対象の所有者にまだ同名ファイルが登録されていない場合' do
+    before do
+      ShareFile.should_receive(:find_by_owner_symbol_and_file_name).with('uid:owner', 'image_name.png').and_return(nil)
+    end
+    it '共有ファイルに登録するファイル名が取得出来ること' do
+      MoveAttachmentImage.share_file_name('uid:owner', '7_image_name.png').should == 'image_name.png'
+    end
   end
 end
 

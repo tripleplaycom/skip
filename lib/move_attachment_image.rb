@@ -135,13 +135,14 @@ class MoveAttachmentImage < BatchBase
 
   def self.new_share_file created_user_id, image_file_name
     return unless(image_attached_entry = image_attached_entry(image_file_name))
-    share_file_name = share_file_name(image_file_name)
+    owner_symbol = image_attached_entry.symbol
+    share_file_name = share_file_name(owner_symbol, image_file_name)
     extension = share_file_name.split('.').last.downcase
     share_file = ShareFile.new(
       # TODO file_nameにユニーク制限がかかっているので同名ファイル時の対策が必要
       :file_name => share_file_name,
       :description => '',
-      :owner_symbol => image_attached_entry.symbol,
+      :owner_symbol => owner_symbol,
       :date => Time.now,
       :user_id => created_user_id,
       :content_type =>  "image/#{extension}",
@@ -155,8 +156,12 @@ class MoveAttachmentImage < BatchBase
     share_file
   end
 
-  def self.share_file_name image_file_name
-    image_file_name.split('_', 2).last
+  def self.share_file_name owner_symbol, image_file_name
+    share_file_name = image_file_name.split('_', 2).last
+    while ShareFile.find_by_owner_symbol_and_file_name(owner_symbol, share_file_name) do
+      share_file_name = "#{File::basename(share_file_name, '.*')}_#{File::extname(share_file_name)}"
+    end
+    share_file_name
   end
 
   def self.image_attached_entry image_file_name

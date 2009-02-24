@@ -31,6 +31,11 @@ class MoveAttachmentImage < BatchBase
       log_info('start move attachment image ...')
       move_attachment_image
       log_info('end move attachment image ...')
+
+      # 記事内の添付画像への直リンクを置換
+      log_info('start replace attachment link ...')
+      replace_direct_link
+      log_info('end replace attachment link ...')
     end
   end
 
@@ -89,6 +94,42 @@ class MoveAttachmentImage < BatchBase
           share_file.save_without_validation!
         end
       end
+    end
+  end
+
+  # 記事の本文やコメントの添付画像への直リンクを置換
+  def self.replace_direct_link
+    BoardEntry.all.each do |board_entry|
+      image_link_re = /\/images\/board_entries(\/|%2F)([0-9]+)(\/|%2F)[0-9]+_(.+)/
+      board_entry.contents.gsub!(image_link_re) do |matched|
+        board_entry = BoardEntry.find_by_id($2.to_i)
+        file_name = $4
+        replaced_text(board_entry.symbol, file_name) || matched
+      end
+      board_entry.save!
+      board_entry.board_entry_comments.each do |board_entry_comment|
+        board_entry_comment.contents.gsub!(image_link_re) do |matched|
+          board_entry = BoardEntry.find_by_id($2.to_i)
+          file_name = $4
+          replaced_text(board_entry.symbol, file_name) || matched
+        end
+        board_entry_comment.save!
+      end
+    end
+  end
+
+  # 置換成功時は置換したテキスト、失敗時はnilを返す
+  def self.replaced_text symbol, file_name
+    type = symbol.split(':').first
+    value = symbol.split(':').last
+    if type == 'uid'
+      return nil unless user = User.find_by_uid(value)
+      "/share_file/user/#{user.id}/#{file_name}"
+    elsif type == 'gid'
+      return nil unless group = Group.find_by_gid(value)
+      "/share_file/group/#{group.id}/#{file_name}"
+    else
+      nil
     end
   end
 

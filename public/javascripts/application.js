@@ -73,6 +73,87 @@ $j(function(){
 
     $j(document).appendClickForToggleTag();
 
+    $j.fn.shareFileUploader = function(config) {
+        var root = $j(this);
+        var message = config["message"];
+
+        var insertToEditor = function(elem){
+            FCKeditorAPI.GetInstance(config["editor"]).InsertElement(elem.get(0));
+        };
+
+        var insertLink = function(label, href){
+            return $j("<span>").text(message["insert_link_label"]).attr("class", "insert_link").click(function(){
+                insertToEditor($j("<a>").text(label).attr("href", href));
+            });
+        };
+
+        var insertImage = function(label, src, filename){
+            if(src){
+                var img = $j("<img />").attr("src", src).attr("alt", label);
+                return img.clone().attr("width", 200).click(function(){ insertToEditor(img); });
+            }else{
+                return $j("<span>").text(filename.substr(0,16));
+            }
+        };
+
+        var shareFileToTableHeader = function() {
+            var tr = $j('<tr>');
+            tr.append($j('<th>').text(message['share_files']['thumbnail']));
+            tr.append($j('<th>').text(message['share_files']['display_name']));
+            return tr;
+        };
+
+        var shareFileToTableRow = function(data){
+            var tr = $j("<tr>");
+            tr.append($j("<td class='thumbnail'>").append(insertImage(data["file_name"], data["src"], data["file_name"])))
+            tr.append($j("<td class='display_name'>").text(data["file_name"]))
+            tr.append($j("<td class='insert'>").append(insertLink(data["file_name"], data["src"])));
+            return tr;
+        };
+
+        var loadShareFiles = function(palette, url, label) {
+            if(!url) return;
+            $j.getJSON(url, function(data, stat){
+                if(data.length == 0) return;
+                var thead = $j('<thead>');
+                thead.append(shareFileToTableHeader());
+                var tbody = $j("<tbody>");
+                $j.each(data, function(_num_, share_file){
+                    tbody.append(shareFileToTableRow(share_file));
+                });
+                palette.append(
+                    $j("<table>")
+                    .append($j("<caption>").text(label))
+                    .append(thead)
+                    .append(tbody)
+                );
+            });
+        };
+
+        var hideUploader = function(){
+            root.hide();
+            $j('span.share_file_uploader').one('click', onLoad);
+        };
+
+        var onLoad = function() {
+            root.empty().attr("class", "enabled").draggable()
+            .append(
+                $j("<div>").append(
+                    $j("<h3>").text(message["title"]).append(
+                        $j("<span class='close'>").text(message["close"]).click(hideUploader)
+                    )
+                )
+//                    )).append(
+//                        uploaderButtontton(config["uploader"])
+                .append(
+                    $j("<div class='share_files' />")
+                )
+            ).show();
+            loadShareFiles(root.find("div.share_files"), config["share_files_url"], message["share_files"]["title"]);
+        };
+        $j('span.share_file_uploader').one('click', onLoad);
+    };
+
     /*
      * 共有ファイルのダウンロード時にダウンロード数を増やす
      */

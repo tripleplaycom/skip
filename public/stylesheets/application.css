@@ -1,0 +1,29 @@
+div#share_file_uploader.enabled {
+  z-index: 1;
+  position: absolute;
+  background: #ffffff;
+  width: 500px;
+  border: 2px solid #9999cc; }
+  div#share_file_uploader.enabled h3 {
+    margin-bottom: 5px; }
+  div#share_file_uploader.enabled span.close {
+    font-size: 10px;
+    margin-left: 5em; }
+  div#share_file_uploader.enabled span.insert_link {
+    font-size: 10px;
+    color: blue; }
+  div#share_file_uploader.enabled div.share_files {
+    overflow: auto;
+    height: 300px; }
+  div#share_file_uploader.enabled div.share_files table {
+    width: 95%;
+    margin: 0 auto;
+    border-collapse: collapse; }
+    div#share_file_uploader.enabled div.share_files table tr, div#share_file_uploader.enabled div.share_files table th, div#share_file_uploader.enabled div.share_files table td {
+      border: 1px solid #DDDDFF; }
+    div#share_file_uploader.enabled div.share_files table td.thumbnail, div#share_file_uploader.enabled div.share_files table td.insert {
+      text-align: center; }
+    div#share_file_uploader.enabled div.share_files table td.thumbnail {
+      width: 200px; }
+    div#share_file_uploader.enabled div.share_files table td.insert {
+      width: 6em; }

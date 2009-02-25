@@ -181,7 +181,10 @@ class ShareFileController < ApplicationController
 
     # 編集メニューの表示有無
     @visitor_is_uploader = params[:visitor_is_uploader]
-    render :layout => 'layout'
+    respond_to do |format|
+      format.html { render :layout => 'layout' }
+      format.js { render :json => @share_files.map{|s| share_file_to_json(s) } }
+    end
   end
 
   def list_as_dialog
@@ -281,5 +284,15 @@ private
     agent = request.cgi.env_table["HTTP_USER_AGENT"]
     return  NKF::nkf('-Ws', file_name) if agent.include?("MSIE") and not agent.include?("Opera")
     return file_name
+  end
+
+  def share_file_to_json(share_file)
+    returning(share_file.attributes) do |json|
+      json[:src] = url_for(
+        :controller => share_file_path(
+          :controller_name => share_file.owner_symbol_type,
+          :symbol_id => share_file.owner_symbol_id,
+          :file_name => share_file.file_name))
+    end
   end
 end

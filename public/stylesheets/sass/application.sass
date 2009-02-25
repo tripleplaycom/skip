@@ -1,0 +1,36 @@
+!small_font_size = 10px
+
+div#share_file_uploader.enabled
+  :z-index 1
+  :position absolute
+  :background #ffffff
+  :width 500px
+  :border 2px solid #9999cc
+
+  h3
+    :margin-bottom 5px
+
+  span.close
+    :font-size = !small_font_size
+    :margin-left 5em
+
+  span.insert_link
+    :font-size = !small_font_size
+    :color blue
+
+  div.share_files
+    :overflow auto
+    :height 300px
+
+  div.share_files table
+    :width 95%
+    :margin 0 auto
+    :border-collapse collapse
+    tr, th, td
+      :border 1px solid #DDDDFF
+    td.thumbnail, td.insert
+      :text-align center
+    td.thumbnail
+      :width 200px
+    td.insert
+      :width 6em

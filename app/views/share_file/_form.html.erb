@@ -1,130 +1,155 @@
-<% content_for :stylesheet do -%>
-<style type="text/css">
-table {
-  table-layout: auto;
-}
-</style>
-<% end -%>
-
-<%= template_error_messages_for 'share_file' %>
-
 <%= hidden_field_tag 'owner_name', h(params[:owner_name]) %>
 <%= hidden_field 'share_file', 'owner_symbol' %>
 
-<div class="input_line">
-  <div class="input_label" style="height: 30px;">公開日付</div>
-  <div class="input_value">
-    <p><%= datetime_select 'share_file', 'date', :use_month_numbers => true -%></p>
-    <p><a href="#" onclick="setCurrentDatetime('share_file', 'date');">[現在時刻を設定]</a>
-  </div>
-  <div style="clear: left"></div>
-</div>
+<% if ajax_upload? -%>
+  <style type="text/css">
+  .upload_form label, .upload_form input {
+    font-size: 10px;
+    font-color: #555555; }
+  </style>
 
-<div class="input_line">
-  <div class="input_label">保存場所</div>
-  <div class="input_value"><%= h(owner_name) -%></div>
-  <div style="clear: left"></div>
-</div>
+  <%= hidden_field_tag 'share_file[date]', Time.now.to_s %>
+  <%= hidden_field_tag 'publication_type', params[:publication_type] %>
+  <%= hidden_field 'share_file', 'category' %>
+  <%= hidden_field 'share_file', 'description' %>
+  <table class="upload_form">
+    <tr>
+      <th class="name"><%= label_tag 'share_file[description]', '説明' %></th>
+      <th class="file"><%= label_tag 'file[1]', 'ファイル' %></th>
+      <th class="indicator">&nbsp;</th>
+    </tr>
+    <tr>
+      <td class="name"><%= text_field 'share_file', 'description', :size => 20 %></td>
+      <td class="file"><%= file_field_tag 'file[1]', :size => 20 %></td>
+      <td class="indicator"><%= image_tag('skip/indicator.gif', {:style => 'display:none'}) %></td>
+    </tr>
+  </table>
+<% else -%>
+  <% content_for :stylesheet do -%>
+  <style type="text/css">
+  table {
+    table-layout: auto;
+  }
+  </style>
+  <% end -%>
 
-<div class="input_line">
-  <div class="input_label" style="height: 30px;" id="input_label_publication">公開範囲</div>
-  <div class="input_value" id="input_value_publication"><table><tr><td>
-    <% display_type = (@share_file.owner_is_public? ? "" : "none") %>
-    <span style="display:<%= display_type %>">
-      <%= radio_button_tag("publication_type", "public", params[:publication_type] == "public", :id=>"publication_type_public") -%>全体に公開
-    </span>
-    <%= radio_button_tag("publication_type", "private", params[:publication_type] == "private", :id=>"publication_type_private") -%><%= show_private_value share_file -%>
-    <%= radio_button_tag("publication_type", "protected", params[:publication_type] == "protected", :id=>"publication_type_protected") %>直接指定
+  <%= template_error_messages_for 'share_file' %>
 
-    <%= render :partial => "shared/symbol_autocomplete_field", :locals => {:publication_symbols_value => params[:publication_symbols_value], :editor_symbols_value => params[:editor_symbols_value], :edit_checkbox => false } %>
-    </td></tr></table>
-  </div>
-  <div style="clear: left"></div>
-</div>
-
-<div class="input_line">
-  <div class="input_label">タグ</div>
-  <div class="input_value"><%= text_field 'share_file', 'category', :size => '60', :value => @share_file.comma_category %>
-    <div id="category_box" style="display:none;">
-      <div id="candidates_list"><p>foo,barの形で複数指定できます</p></div>
-      <div style="font-size:10pt; font-weight:bold;">タグ：</div><div id="tags_list" style="margin-bottom:5px;"></div>
-      <div style="font-size:10pt; font-weight:bold;">人気のタグ：</div><div id="user_tags_list" style="margin-bottom:5px;"></div>
+  <div class="input_line">
+    <div class="input_label" style="height: 30px;">公開日付</div>
+    <div class="input_value">
+      <p><%= datetime_select 'share_file', 'date', :use_month_numbers => true -%></p>
+      <p><a href="#" onclick="setCurrentDatetime('share_file', 'date');">[現在時刻を設定]</a>
     </div>
+    <div style="clear: left"></div>
   </div>
-  <div style="clear: left"></div>
-</div>
 
-<div class="input_line">
-  <div class="input_label">コメント</div>
-  <div class="input_value"><%= text_field 'share_file', 'description', :size =>60 %></div>
-  <div style="clear: left"></div>
-</div>
+  <div class="input_line">
+    <div class="input_label">保存場所</div>
+    <div class="input_value"><%= h(owner_name) -%></div>
+    <div style="clear: left"></div>
+  </div>
 
-<% content_for :javascript do -%>
-<script type='text/javascript'>
-$j(function() {
-    // TODO 下のメソッド二つはおそらく記事の部分でも使えそう。
-    var changePublicationType = function() {
-        if ($j('#publication_type_protected:checked').length > 0) {
-            $j('#publication_symbols_space').show();
-            $j('#publication_symbol').focus();
-        } else {
-            $j('#publication_symbols_space').hide();
-        }
-    };
+  <div class="input_line">
+    <div class="input_label" style="height: 30px;" id="input_label_publication">公開範囲</div>
+    <div class="input_value" id="input_value_publication"><table><tr><td>
+      <% display_type = (@share_file.owner_is_public? ? "" : "none") %>
+      <span style="display:<%= display_type %>">
+        <%= radio_button_tag("publication_type", "public", params[:publication_type] == "public", :id=>"publication_type_public") -%>全体に公開
+      </span>
+      <%= radio_button_tag("publication_type", "private", params[:publication_type] == "private", :id=>"publication_type_private") -%><%= show_private_value share_file -%>
+      <%= radio_button_tag("publication_type", "protected", params[:publication_type] == "protected", :id=>"publication_type_protected") %>直接指定
 
-    var checkPublicationType = function() {
-        var publicationSymbolsValue = $j('#publication_symbols_value');
-        if ($j('#publication_type_public:checked').length > 0) {
-            publicationSymbolsValue.val('');
-        }
-        if ($j('#publication_type_protected:checked').length > 0) {
-            if ( publicationSymbolsValue.val() == '' ) {
-                if (confirm("ユーザの指定がされていません。\r\nこのままだと、「全体に公開」になりますがよろしいですか？")) {
-                    $j('#publication_type_public').attr('checked', true);
-                    changePublicationType();
-                } else {
-                    return false;
-                }
-            }
-        }
-        return true;
-    };
+      <%= render :partial => "shared/symbol_autocomplete_field", :locals => {:publication_symbols_value => params[:publication_symbols_value], :editor_symbols_value => params[:editor_symbols_value], :edit_checkbox => false } %>
+      </td></tr></table>
+    </div>
+    <div style="clear: left"></div>
+  </div>
 
-    $j('#publication_type_public, #publication_type_protected, #publication_type_private')
-    .click(function() {
-        changePublicationType();
-    });
+  <div class="input_line">
+    <div class="input_label">タグ</div>
+    <div class="input_value"><%= text_field 'share_file', 'category', :size => '60', :value => @share_file.comma_category %>
+      <div id="category_box" style="display:none;">
+        <div id="candidates_list"><p>foo,barの形で複数指定できます</p></div>
+        <div style="font-size:10pt; font-weight:bold;">タグ：</div><div id="tags_list" style="margin-bottom:5px;"></div>
+        <div style="font-size:10pt; font-weight:bold;">人気のタグ：</div><div id="user_tags_list" style="margin-bottom:5px;"></div>
+      </div>
+    </div>
+    <div style="clear: left"></div>
+  </div>
 
-    $j('#share_file_form')
-    .submit(function() {
-        if (!checkPublicationType()) {
-            return false;
-        }
-    });
+  <div class="input_line">
+    <div class="input_label">コメント</div>
+    <div class="input_value"><%= text_field 'share_file', 'description', :size =>60 %></div>
+    <div style="clear: left"></div>
+  </div>
 
-    changePublicationType();
+  <% content_for :javascript do -%>
+  <script type='text/javascript'>
+  $j(function() {
+      // TODO 下のメソッド二つはおそらく記事の部分でも使えそう。
+      var changePublicationType = function() {
+          if ($j('#publication_type_protected:checked').length > 0) {
+              $j('#publication_symbols_space').show();
+              $j('#publication_symbol').focus();
+          } else {
+              $j('#publication_symbols_space').hide();
+          }
+      };
 
-    $j('#share_file_category').focus(function() {
-        showCategoryBox();
-    });
+      var checkPublicationType = function() {
+          var publicationSymbolsValue = $j('#publication_symbols_value');
+          if ($j('#publication_type_public:checked').length > 0) {
+              publicationSymbolsValue.val('');
+          }
+          if ($j('#publication_type_protected:checked').length > 0) {
+              if ( publicationSymbolsValue.val() == '' ) {
+                  if (confirm("ユーザの指定がされていません。\r\nこのままだと、「全体に公開」になりますがよろしいですか？")) {
+                      $j('#publication_type_public').attr('checked', true);
+                      changePublicationType();
+                  } else {
+                      return false;
+                  }
+              }
+          }
+          return true;
+      };
 
-    $j('#share_file_description').focus(function() {
-        hideCategoryBox();
-    });
+      $j('#publication_type_public, #publication_type_protected, #publication_type_private')
+      .click(function() {
+          changePublicationType();
+      });
 
-    var setupTagComplete = function() {
-        var tags = new Array(<%= categories_hash[:mine].map{|str| ("'#{str}'")}.join(',') %>);
-        var userTags = new Array(<%= categories_hash[:user].map{|str| ("'#{str}'")}.join(',') %>);
+      $j('#share_file_form')
+      .submit(function() {
+          if (!checkPublicationType()) {
+              return false;
+          }
+      });
 
-        $j('#tags_list').append(createTagsLink(tags));
-        $j('#user_tags_list').append(createTagsLink(userTags));
+      changePublicationType();
 
-        // タグ処理
-        $j('#share_file_category').jTagging($j('#tags_list'));
-        $j('#share_file_category').jTagging($j('#user_tags_list'));
-    };
-    setupTagComplete();
-});
-</script>
+      $j('#share_file_category').focus(function() {
+          showCategoryBox();
+      });
+
+      $j('#share_file_description').focus(function() {
+          hideCategoryBox();
+      });
+
+      var setupTagComplete = function() {
+          var tags = new Array(<%= categories_hash[:mine].map{|str| ("'#{str}'")}.join(',') %>);
+          var userTags = new Array(<%= categories_hash[:user].map{|str| ("'#{str}'")}.join(',') %>);
+
+          $j('#tags_list').append(createTagsLink(tags));
+          $j('#user_tags_list').append(createTagsLink(userTags));
+
+          // タグ処理
+          $j('#share_file_category').jTagging($j('#tags_list'));
+          $j('#share_file_category').jTagging($j('#user_tags_list'));
+      };
+      setupTagComplete();
+  });
+  </script>
+  <% end -%>
 <% end -%>

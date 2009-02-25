@@ -81,7 +81,7 @@ $j(function(){
         uploader: {
             target: '<%= IframeUploader::UPLOAD_KEY %>',
             src: {
-form: '<%= url_for(:controller => 'share_file', :action => 'new', :owner_symbol => @board_entry.symbol, :ajax_upload => 1, :escape => false) %>',
+                form: '<%= url_for(:controller => 'share_file', :action => 'new', :owner_symbol => @board_entry.symbol, :ajax_upload => 1, :escape => false) %>',
                 target: ''
             },
             callback: null

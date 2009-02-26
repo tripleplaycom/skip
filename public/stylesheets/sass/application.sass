@@ -1,6 +1,24 @@
 !small_font_size = 10px
 
 // ============================================================
+// 共通
+// ============================================================
+.pointer
+  cursor: pointer
+
+.link
+  color: #0080DD
+.link:hover
+  color: blue
+
+// ============================================================
+// 記事
+// ============================================================
+span.share_file_uploader.trigger
+  :font-size = !small_font_size
+  :margin-left 5em
+
+// ============================================================
 // 共有ファイルアップローダー
 // ============================================================
 .share_file.upload
@@ -30,9 +48,8 @@ div#share_file_uploader.enabled
     :font-size = !small_font_size
     :margin-left 5em
 
-  span.insert_link
+  span.insert_link, span.operation
     :font-size = !small_font_size
-    :color blue
 
   div.share_files
     :overflow auto

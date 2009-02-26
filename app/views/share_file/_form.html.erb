@@ -5,7 +5,7 @@
   <style type="text/css">
   .upload_form label, .upload_form input {
     font-size: 10px;
-    font-color: #555555; }
+    color: #555555; }
   </style>
 
   <%= hidden_field_tag 'share_file[date]', Time.now.to_s %>
@@ -15,11 +15,11 @@
   <table class="upload_form">
     <tr>
       <th class="name"><%= label_tag 'share_file[description]', '説明' %></th>
-      <th class="file"><%= label_tag 'file[1]', 'ファイル' %></th>
+      <td class="name"><%= text_field 'share_file', 'description', :size => 20 %></td>
       <th class="indicator">&nbsp;</th>
     </tr>
     <tr>
-      <td class="name"><%= text_field 'share_file', 'description', :size => 20 %></td>
+      <th class="file"><%= label_tag 'file[1]', 'ファイル' %></th>
       <td class="file"><%= file_field_tag 'file[1]', :size => 20 %></td>
       <td class="indicator"><%= image_tag('skip/indicator.gif', {:style => 'display:none'}) %></td>
     </tr>

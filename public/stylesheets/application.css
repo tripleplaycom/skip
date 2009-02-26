@@ -1,3 +1,16 @@
+.pointer {
+  cursor: pointer; }
+
+.link {
+  color: #0080DD; }
+
+.link:hover {
+  color: blue; }
+
+span.share_file_uploader.trigger {
+  font-size: 10px;
+  margin-left: 5em; }
+
 .share_file.upload iframe {
   border: 0;
   overflow: hidden;
@@ -21,9 +34,8 @@ div#share_file_uploader.enabled {
   div#share_file_uploader.enabled span.close {
     font-size: 10px;
     margin-left: 5em; }
-  div#share_file_uploader.enabled span.insert_link {
-    font-size: 10px;
-    color: blue; }
+  div#share_file_uploader.enabled span.insert_link, div#share_file_uploader.enabled span.operation {
+    font-size: 10px; }
   div#share_file_uploader.enabled div.share_files {
     overflow: auto;
     height: 300px; }

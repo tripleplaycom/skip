@@ -88,7 +88,7 @@ $j(function(){
         var insertLink = function(data){
             var filename = data['file_name'];
             var src = data['src'];
-            return $j("<span>").text(message["insert_link_label"]).attr("class", "insert_link").click(function(){
+            return $j("<span>").text(message["insert_link_label"]).addClass("insert_link link pointer").click(function(){
                 if($j('#editor_mode_richtext:checked').length > 0){
                     insertToRichEditor($j("<a>").text(filename).attr("href", src));
                 } else if($j('#editor_mode_hiki:checked').length > 0) {
@@ -101,7 +101,7 @@ $j(function(){
             var filename = data['file_name'];
             var src = data['src'];
             if(src){
-                var img = $j("<img />").attr("src", src).attr("alt", filename);
+                var img = $j("<img />").attr("src", src).attr("alt", filename).addClass('pointer');
                 return img.clone().attr("width", 200).click(function(){
                     if($j('#editor_mode_richtext:checked').length > 0){
                         insertToRichEditor(img);
@@ -160,7 +160,7 @@ $j(function(){
             };
 
             return $j("<div class='share_file upload' />").append(
-                $j("<span class='operation'>")
+                $j("<span class='operation link pointer'>")
                 .text(message["upload_share_file"])
                 .one("click", function(){ $j(this).hide().parent().iframeUploader(conf) })
             )
@@ -171,7 +171,7 @@ $j(function(){
             .append(
                 $j("<div>").append(
                     $j("<h3>").text(message["title"]).append(
-                        $j("<span class='close'>").text(message["close"]).click(hideUploader)
+                        $j("<span class='close link pointer'>").text(message["close"]).click(hideUploader)
                     )
                 )
                 .append(uploaderButton(config["uploader"]))

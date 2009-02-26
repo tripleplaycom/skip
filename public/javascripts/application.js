@@ -135,18 +135,18 @@ $j(function(){
             $j('span.share_file_uploader').one('click', onLoad);
         };
 
-    var uploaderButton = function(conf) {
-        conf["callback"] = function(){
-            root.find("table").remove();
-            loadShareFiles(root.find("div.share_files"), config["share_files_url"], message["share_files"]["title"]);
-        };
+        var uploaderButton = function(conf) {
+            conf["callback"] = function(){
+                root.find("table").remove();
+                loadShareFiles(root.find("div.share_files"), config["share_files_url"], message["share_files"]["title"]);
+            };
 
-        return $j("<div class='share_file upload' />").append(
-            $j("<span class='operation'>")
-            .text(message["upload_share_file"])
-            .one("click", function(){ $j(this).hide().parent().iframeUploader(conf) })
-        )
-    };
+            return $j("<div class='share_file upload' />").append(
+                $j("<span class='operation'>")
+                .text(message["upload_share_file"])
+                .one("click", function(){ $j(this).hide().parent().iframeUploader(conf) })
+            )
+        };
 
         var onLoad = function() {
             root.empty().attr("class", "enabled").draggable()

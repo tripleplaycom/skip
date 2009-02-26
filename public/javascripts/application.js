@@ -77,20 +77,38 @@ $j(function(){
         var root = $j(this);
         var message = config["message"];
 
-        var insertToEditor = function(elem){
-            FCKeditorAPI.GetInstance(config["editor"]).InsertElement(elem.get(0));
+        var insertToRichEditor = function(elem){
+            FCKeditorAPI.GetInstance('contents_richtext').InsertElement(elem.get(0));
         };
 
-        var insertLink = function(label, href){
+        var insertToHikiEditor = function(text){
+            $j("#contents_hiki").val($j("#contents_hiki").val() + text);
+        };
+
+        var insertLink = function(data){
+            var filename = data['file_name'];
+            var src = data['src'];
             return $j("<span>").text(message["insert_link_label"]).attr("class", "insert_link").click(function(){
-                insertToEditor($j("<a>").text(label).attr("href", href));
+                if($j('#editor_mode_richtext:checked').length > 0){
+                    insertToRichEditor($j("<a>").text(filename).attr("href", src));
+                } else if($j('#editor_mode_hiki:checked').length > 0) {
+                    insertToHikiEditor('\n[file:' + filename + ']');
+                }
             });
         };
 
-        var insertImage = function(label, src, filename){
+        var insertImage = function(data){
+            var filename = data['file_name'];
+            var src = data['src'];
             if(src){
-                var img = $j("<img />").attr("src", src).attr("alt", label);
-                return img.clone().attr("width", 200).click(function(){ insertToEditor(img); });
+                var img = $j("<img />").attr("src", src).attr("alt", filename);
+                return img.clone().attr("width", 200).click(function(){
+                    if($j('#editor_mode_richtext:checked').length > 0){
+                        insertToRichEditor(img);
+                    } else if($j('#editor_mode_hiki:checked').length > 0) {
+                        insertToHikiEditor('\n{{' + filename + ',240,}}');
+                    }
+                });
             }else{
                 return $j("<span>").text(filename.substr(0,16));
             }
@@ -105,9 +123,9 @@ $j(function(){
 
         var shareFileToTableRow = function(data){
             var tr = $j("<tr>");
-            tr.append($j("<td class='thumbnail'>").append(insertImage(data["file_name"], data["src"], data["file_name"])))
-            tr.append($j("<td class='display_name'>").text(data["file_name"]))
-            tr.append($j("<td class='insert'>").append(insertLink(data["file_name"], data["src"])));
+            tr.append($j("<td class='thumbnail'>").append(insertImage(data)));
+            tr.append($j("<td class='display_name'>").text(data["file_name"]));
+            tr.append($j("<td class='insert'>").append(insertLink(data)));
             return tr;
         };
 

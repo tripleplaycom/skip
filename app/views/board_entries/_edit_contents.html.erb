@@ -23,6 +23,7 @@
 
 <% content_for :javascript do -%>
 <%= skip_javascript_include_tag "fckeditor/fckeditor" %>
+<%= skip_jquery_include_tag 'iframe_upload' %>
 <script type='text/javascript'>
 $j(function(){
     FCKeditor.BasePath = platform_url_root + "/javascripts/skip/fckeditor/";

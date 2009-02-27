@@ -167,16 +167,18 @@ $j(function(){
         };
 
         var onLoad = function() {
-            root.empty().attr("class", "enabled").draggable()
-            .append(
-                $j("<div>").append(
-                    $j("<h3>").text(message["title"]).append(
-                        $j("<span class='close link pointer'>").text(message["close"]).click(hideUploader)
-                    )
+            root.empty().attr("class", "enabled").draggable({handle: 'div.title_bar'}).append(
+                $j('<div class="title_bar move">').append(
+                    $j("<h3>").text(message["title"])
+                ).append(
+                    $j("<span class='close link pointer'>").text(message["close"]).click(hideUploader)
                 )
-                .append(uploaderButton(config["uploader"]))
-                .append($j("<div class='share_files' />"))
-            ).show();
+            ).append(
+                $j("<div style='clear: both;'/>")
+            ).append(
+                uploaderButton(config["uploader"])
+            ).append($j("<div class='share_files' />")).show();
+
             loadShareFiles(root.find("div.share_files"), config["share_files_url"], message["share_files"]["title"]);
         };
         $j('span.share_file_uploader').one('click', onLoad);

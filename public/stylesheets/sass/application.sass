@@ -6,6 +6,9 @@
 .pointer
   cursor: pointer
 
+.move
+  cursor: move
+
 .link
   color: #0080DD
 .link:hover
@@ -39,14 +42,21 @@ div#share_file_uploader.enabled
   :position absolute
   :background #ffffff
   :width 500px
-  :border 2px solid #9999cc
+  :border 2px solid #99c
 
-  h3
-    :margin-bottom 5px
+  .title_bar
+    :position relative
+    :background = #99c + #333
+    :border-bottom 1px solid #99c
+    h3
+      :margin-bottom 5px
 
-  span.close
-    :font-size = !small_font_size
-    :margin-left 5em
+    span.close
+      :font-size = !small_font_size
+      :float right
+      :position absolute
+      :right 2px
+      :top 2px
 
   span.insert_link, span.operation
     :font-size = !small_font_size

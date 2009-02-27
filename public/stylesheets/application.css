@@ -1,6 +1,9 @@
 .pointer {
   cursor: pointer; }
 
+.move {
+  cursor: move; }
+
 .link {
   color: #0080DD; }
 
@@ -28,12 +31,19 @@ div#share_file_uploader.enabled {
   position: absolute;
   background: #ffffff;
   width: 500px;
-  border: 2px solid #9999cc; }
-  div#share_file_uploader.enabled h3 {
-    margin-bottom: 5px; }
-  div#share_file_uploader.enabled span.close {
-    font-size: 10px;
-    margin-left: 5em; }
+  border: 2px solid #99c; }
+  div#share_file_uploader.enabled .title_bar {
+    position: relative;
+    background: #ccccff;
+    border-bottom: 1px solid #99c; }
+    div#share_file_uploader.enabled .title_bar h3 {
+      margin-bottom: 5px; }
+    div#share_file_uploader.enabled .title_bar span.close {
+      font-size: 10px;
+      float: right;
+      position: absolute;
+      right: 2px;
+      top: 2px; }
   div#share_file_uploader.enabled span.insert_link, div#share_file_uploader.enabled span.operation {
     font-size: 10px; }
   div#share_file_uploader.enabled div.share_files {

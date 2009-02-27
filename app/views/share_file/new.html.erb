@@ -1,16 +1,9 @@
 <% html_options = {:multipart => true, :id => 'share_file_form'} -%>
-<% if ajax_upload? -%>
-  <% url = url_for({:action => 'create'}.merge(params.slice(IframeUploader::UPLOAD_KEY))) -%>
-  <% html_options[:target] = IframeUploader::UPLOAD_KEY -%>
-<% else -%>
-  <% url = url_for(:action => 'create') -%>
-<% end -%>
-<% form_tag(url, html_options) do -%>
+<% form_tag(url_for(:action => 'create'), html_options) do -%>
   <%= render :partial => 'form', :locals => {:owner_name => @owner_name,
                                              :share_file => @share_file,
                                              :categories_hash => @categories_hash,
                                              :symbol2name_hash => @symbol2name_hash} %>
-  <% unless ajax_upload? -%>
   <div class="input_line">
     <div class="input_label">ファイル</div>
     <div style="float:left;">
@@ -32,5 +25,4 @@
 
   <%= submit_tag "登録", :id => "submit_button" %>
   <input type="button" value="キャンセル" onclick="window.close();"></input>
-  <% end -%>
 <% end -%>

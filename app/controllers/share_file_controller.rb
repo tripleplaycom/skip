@@ -24,7 +24,7 @@ class ShareFileController < ApplicationController
     @share_file = ShareFile.new(:user_id => current_user.id, :owner_symbol => params[:owner_symbol])
 
     unless @share_file.updatable?(current_user)
-      render_window_close unless ajax_upload?
+      ajax_upload? ? render(:template => 'share_file/new_ajax_upload', :layout => false) : render_window_close
       return
     end
 
@@ -35,14 +35,14 @@ class ShareFileController < ApplicationController
     @error_messages = []
     @owner_name = params[:owner_name]
     @categories_hash = ShareFile.get_tags_hash(@share_file.owner_symbol)
-    ajax_upload? ? render(:layout => false) : render
+    ajax_upload? ? render(:template => 'share_file/new_ajax_upload', :layout => false) : render
   end
 
   # post action
   def create
     @error_messages = []
     unless params[:file]
-      render_window_close unless ajax_upload?
+      ajax_upload? ? render(:template => 'share_file/new_ajax_upload', :layout => false) : render_window_close
       return
     end
     @share_file = ShareFile.new(params[:share_file])
@@ -77,7 +77,7 @@ class ShareFileController < ApplicationController
 
     if @error_messages.size == 0
       flash[:notice] = _('ファイルのアップロードに成功しました。')
-      ajax_upload? ? render(:layout => false) : render_window_close
+      ajax_upload? ? render(:template => 'share_file/new_ajax_upload', :layout => false) : render_window_close
     else
       flash.now[:warning] = "ファイルのアップロードに失敗しました。<br/>"
       flash.now[:warning] << "[成功:#{params[:file].size - @error_messages.size} 失敗:#{@error_messages.size}]"
@@ -86,7 +86,7 @@ class ShareFileController < ApplicationController
       @share_file.errors.clear
       @owner_name = params[:owner_name]
       @categories_hash = ShareFile.get_tags_hash(@share_file.owner_symbol)
-      render :action => "new"
+      ajax_upload? ? render(:template => 'share_file/new_ajax_upload', :layout => false) : render(:action => "new")
     end
   end
 

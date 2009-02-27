@@ -362,39 +362,6 @@ describe ShareFileController, "POST #destroy" do
   end
 end
 
-describe ShareFileController, 'GET #list_as_dialog' do
-  before do
-    @current_user = user_login
-    @owner_symbol = 'owner_symbol'
-  end
-  describe '送信された所有者の参照可能なファイルが取得できる場合' do
-    before do
-      @share_files = [stub_model(ShareFile)]
-      ShareFile.should_receive(:readables).with(@current_user, @owner_symbol).and_return(@share_files)
-      get :list_as_dialog, :owner_symbol => @owner_symbol
-    end
-    it '取得したShareFileのリストが設定されること' do
-      assigns[:share_files].should == @share_files
-    end
-    it 'list_as_dialogに遷移すること' do
-      response.should render_template('list_as_dialog')
-    end
-  end
-  describe '送信された所有者の参照可能なファイルが取得できない場合' do
-    before do
-      @share_files = [stub_model(ShareFile)]
-      ShareFile.should_receive(:readables).with(@current_user, @owner_symbol).and_return([])
-      get :list_as_dialog, :owner_symbol => @owner_symbol
-    end
-    it 'ファイルが存在しません。というテキストが返ること' do
-      response.body.should == 'ファイルが存在しません。'
-    end
-    it 'ステータスコードが404であること' do
-      response.code == '404'
-    end
-  end
-end
-
 describe ShareFileController, "GET #download" do
   before do
     @user = user_login

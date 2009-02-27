@@ -14,28 +14,3 @@
 #  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 require File.dirname(__FILE__) + '/../spec_helper'
-
-describe Symbol, '.valid_owner_symbol' do
-  describe '引数がnilの場合' do
-    it 'invalid(false)になること' do
-      Symbol.valid_owner_symbol(nil).should be_false
-    end
-  end
-  describe '引数がnil以外の場合' do
-    describe 'uid:で始まる場合' do
-      it 'valid(true)になること' do
-        Symbol.valid_owner_symbol('uid:foo').should be_true
-      end
-    end
-    describe 'gid:で始まる場合' do
-      it 'valid(true)になること' do
-        Symbol.valid_owner_symbol('gid:foo').should be_true
-      end
-    end
-    describe '上記以外の場合' do
-      it 'invalid(false)になること' do
-        Symbol.valid_owner_symbol('zid:foo').should be_false
-      end
-    end
-  end
-end

@@ -51,11 +51,4 @@ class Symbol
     { 'system' => 'sid', 'user' => 'uid', 'group' => 'gid' }[type]
   end
 
-  def self.valid_owner_symbol symbol
-    if symbol
-      symbol_type, symbol_id = self.split_symbol(symbol)
-      return symbol_type && symbol_type == User.symbol_type.to_s || symbol_type == Group.symbol_type.to_s
-    end
-    false
-  end
 end

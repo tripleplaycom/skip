@@ -47,38 +47,45 @@
       </div>
     <% end -%>
   </div>
-  <%= header_logo_link %>
-  <div class="banner"></div>
-
-  <% if current_user -%>
-    <% if SkipEmbedded::InitialSettings['full_text_search_setting'] && current_user.active? -%>
-      <div id="search" class="ui-corner-all">
-        <% form_tag({:controller => '/search', :action => 'full_text_search'},{:method => 'get'}) do -%>
-          <%= text_field_tag "full_text_query", search_label, :class => "labeled-field" %>
-          <%= submit_tag _('Search') -%>
+  <div id="global_middle">
+    <%= header_logo_link %>
+    <% if current_user -%>
+      <% if SkipEmbedded::InitialSettings['full_text_search_setting'] && current_user.active? -%>
+        <div id="search" class="ui-corner-all">
+          <% form_tag({:controller => '/search', :action => 'full_text_search'},{:method => 'get'}) do -%>
+            <table>
+              <col class="col300" />
+              <col class="col45" />
+              <tbody>
+                <tr>
+                  <td>
+            <%= text_field_tag "full_text_query", search_label, :class => "labeled-field" %>
+                  </td>
+                  <td class="search_button_wrapper">
+                    <%= submit_tag _('Search'), :class=> "search_button" -%>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          <% end -%>
+        </div>
+        <% content_for :javascript_initializers do -%>
+          $j('input#full_text_query').labeledTextField(<%= {:message => search_label}.to_json %>);
         <% end -%>
-        <span class="other_links"><%= link_to( _('Rankings'), :controller => '/rankings', :action => 'index') if ranking_enabled? %></span>
-        <span class="other_links"><%= link_to( _('Site Information'), :controller => '/statistics') %></span>
-        <%= shortcut_menus %>
-      </div>
-      <% content_for :javascript_initializers do -%>
-        $j('input#full_text_query').labeledTextField(<%= {:message => search_label}.to_json %>);
       <% end -%>
     <% end -%>
-  <% end -%>
-  <% if @content_for_header_form -%>
-    <%= yield :header_form %>
-  <% end -%>
+    <% if @content_for_header_form -%>
+      <%= yield :header_form %>
+    <% end -%>
+  </div>
 </div><!-- header -->
 <div id="global_links_wrapper">
   <% if current_user && current_user.active? -%>
     <div id="global_links">
       <%= render :partial => 'shared/global_navigation' %>
     </div>
-    <div id="customize_design">
-      <% skin_themes.each do |skin| -%>
-        <%= link_to(image_tag("../stylesheets/skins/#{skin}/color.png", :size => "15x15", :title => "#{skin}"), {:controller => '/mypage', :action => 'update_customize', :user_custom => {"theme" => skin}}, :method => :post) %>
-      <% end -%>
+    <div id="global_shortcut" %>
+      <%= shortcut_menus %>
     </div>
     <div class="clear_both"></div>
   <% end -%>

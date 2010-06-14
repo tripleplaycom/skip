@@ -5,9 +5,10 @@
   <%= render :partial => 'board_entries/form' %>
   <% if @conflicted %>
   <div class="desc ui-corner-all"><%= _("*Click on &quot;Reset&quot; to reset the edit or &quot;Update&quot; to overwrite other's edit.")%></div>
-　<% edit_url = url_for(:action => 'edit', :id => @board_entry.id) %>
+  <% edit_url = url_for(:action => 'edit', :id => @board_entry.id) %>
   <%= button_to_function(_("Reset"), "if(confirm('" + _('All changes will be discarded. Are you sure to proceed?') + "')){window.location.href='#{edit_url}' }") %>
   <% end %>
+  <div class="publication_status_wrapper"><%= _('Selected publication type') %><span id="publication_status"></span></div>
   <%= submit_tag _("Update"), :id => 'submit_button' %>
   <%= check_box_tag("non_update", "true") %><%= _('Minor update')%>
   <%= send_mail_check_box_tag %>
@@ -15,7 +16,7 @@
 <%= render :partial => 'board_entries/embed_dialog', :locals => {:board_entry => @board_entry} %>
 
 <div class="desc ui-corner-all" style="margin-top: 10px;">
-  <% form_tag({:action => 'destroy', :id => @board_entry}, :onclick => 'return confirmDestroy(event)') do -%>
+  <% form_tag({:action => 'destroy', :id => @board_entry}, :onsubmit => 'return confirmDestroy(event)') do -%>
     <%= submit_tag _('Delete') %>
   <% end -%>
 </div>

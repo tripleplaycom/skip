@@ -6901,7 +6901,7 @@ msgid ""
 msgstr "ブログを書いたことのある人<br/>&nbsp;(フォーラム除く・公開のみ)"
 
 #: app/views/statistics/index.html.erb:28
-msgid "Users who have changed thier profile pitures"
+msgid "Users who have changed their profile pitures"
 msgstr "プロフィール画像を変えている人"
 
 #: app/views/statistics/index.html.erb:27

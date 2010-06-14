@@ -6740,7 +6740,7 @@ msgid ""
 msgstr ""
 
 #: app/views/statistics/index.html.erb:28
-msgid "Users who have changed thier profile pitures"
+msgid "Users who have changed their profile pitures"
 msgstr ""
 
 #: app/views/statistics/index.html.erb:27
